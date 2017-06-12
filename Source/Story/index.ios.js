@@ -26,7 +26,7 @@ class StoryApp extends Component {
       <NavigatorIOS
         style={styles.container}
         initialRoute={{
-          title: 'Home',
+          title: 'Story',
           component: HomePage,
         }}/>
     );
