@@ -6,6 +6,7 @@ import ScrollTopView from 'react-native-scrolltotop';
 import {
   View,
   Text,
+  Image,
   ListView,
   ScrollView,
   StyleSheet,
@@ -18,6 +19,28 @@ const styles = StyleSheet.create({
   container:{
     flex:1
   },
+  sectionHeader: {
+    flex: 1,
+    marginTop:10,
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  titleText: {
+    fontSize: 20,
+    marginLeft:15,
+    fontWeight: 'bold',
+  },
+  subTitleText: {
+    fontSize: 16,
+    marginTop:2,
+    fontWeight: 'bold',
+  },
+  flowRight: {
+    flex:1,
+    flexDirection: 'row',
+    alignItems: 'flex-start',
+    alignSelf: 'stretch'
+  },
   htmlViewContainer:{
     flex:1,
     padding:15,
@@ -28,9 +51,25 @@ const styles = StyleSheet.create({
 class StoryDetail extends Component{
   constructor(props) {
     super(props);
-    const ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
+    var getSectionData = (dataBlob, sectionID) => {
+      return dataBlob[sectionID];
+    };
+
+    var getRowData = (dataBlob, sectionID, rowID) => {
+      return dataBlob[sectionID + ':' + rowID];
+    };
+
+    var dataSource = function () {
+      return new ListView.DataSource({
+        getRowData: getRowData,
+        getSectionHeaderData: getSectionData,
+        rowHasChanged: (row1, row2) => row1 !== row2,
+        sectionHeaderHasChanged: (s1, s2) => s1 !== s2
+      });
+    }
+
     this.state = {
-      dataSource: ds.cloneWithRows(['row 1']),
+      dataSource: dataSource().cloneWithRowsAndSections(['row 1']),
       isShowToTop: false
     };
   }
@@ -42,6 +81,7 @@ class StoryDetail extends Component{
         dataSource={this.state.dataSource}
         renderRow={this.renderRow.bind(this)}
         renderHeader={() => <ListViewHeader />}
+        renderSectionHeader={this.renderSectionHeader}
         onEndReachedThreshold = {10}
         ref="listview"
         onScroll={(e)=>this._onScroll(e)}
@@ -49,6 +89,19 @@ class StoryDetail extends Component{
             return <ScrollView style={styles.ViewPort} {...props}/>
         }}
         />
+    );
+  }
+
+  renderSectionHeader(sectionData, sectionID) {
+    return (
+      <View style={styles.sectionHeader}>
+        <View style={styles.flowRight}>
+          <Image source={{uri:'https://storage.googleapis.com/rocky-production/profilepictures/small_3906dba5250464c4b0f959a2c82c3c6a.jpg'}}/>
+          <Text style={styles.titleText}>Test Work Book</Text>
+          <Text style={{textAlign:'right', marginLeft:5, marginTop:5, marginRight:5}}>by</Text>
+          <Text style={styles.subTitleText}>Denis Stepanov</Text>
+        </View>
+      </View>
     );
   }
 
