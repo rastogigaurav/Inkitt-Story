@@ -51,6 +51,11 @@ const styles = StyleSheet.create({
 class StoryDetail extends Component{
   constructor(props) {
     super(props);
+
+    var dataBlob = {};
+    var sectionsID = ['Section 1'];
+    var rowsID = ['Row 1'];
+
     var getSectionData = (dataBlob, sectionID) => {
       return dataBlob[sectionID];
     };
@@ -69,7 +74,7 @@ class StoryDetail extends Component{
     }
 
     this.state = {
-      dataSource: dataSource().cloneWithRowsAndSections(['row 1']),
+      dataSource: dataSource().cloneWithRowsAndSections(dataBlob, sectionsID, rowsID),//cloneWithRowsAndSections([['row 1', ...], ...]),
       isShowToTop: false
     };
   }
