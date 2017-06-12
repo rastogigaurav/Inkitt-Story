@@ -87,7 +87,6 @@ class StoryDetail extends Component{
         renderRow={this.renderRow.bind(this)}
         renderHeader={() => <ListViewHeader />}
         renderSectionHeader={this.renderSectionHeader}
-        onEndReachedThreshold = {10}
         ref="listview"
         onScroll={(e)=>this._onScroll(e)}
         renderScrollComponent={(props)=>{
